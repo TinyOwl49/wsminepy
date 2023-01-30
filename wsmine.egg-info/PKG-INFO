@@ -1,0 +1,5 @@
+Metadata-Version: 2.1
+Name: wsmine
+Version: 0.0.1
+Summary: Minecraft BE /wsserver
+Requires-Python: >=3.7

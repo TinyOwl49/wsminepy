@@ -1,0 +1,13 @@
+setup.py
+wsminepy/__init__.py
+wsminepy/__version__.py
+wsminepy/command.py
+wsminepy/event.py
+wsminepy/mcdata.py
+wsminepy/readme.txt
+wsminepy/server.py
+wsminepy.egg-info/PKG-INFO
+wsminepy.egg-info/SOURCES.txt
+wsminepy.egg-info/dependency_links.txt
+wsminepy.egg-info/requires.txt
+wsminepy.egg-info/top_level.txt
