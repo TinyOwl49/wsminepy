@@ -3,3 +3,4 @@ Name: wsminepy
 Version: 0.0.1
 Summary: Minecraft BE /wsserver
 Requires-Python: >=3.7
+License-File: LICENSE

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
+
 class Color:
     Black = "§0"
     DarkBlue = "§1"
@@ -19,10 +20,26 @@ class Color:
     Yellow = "§e"
     White = "§f"
 
+
 class Dimention(Enum):
     Overworld = 0
     Nether = 1
     TheEnd = 2
+
+
+class Direction:
+    Forward = "forward"
+    Back = "back"
+    Left = "left"
+    Right = "right"
+    Up = "up"
+    Down = "down"
+
+
+class TurnDirection(Enum):
+    Left = "left"
+    Right = "right"
+
 
 @dataclass
 class Player:
@@ -35,8 +52,10 @@ class Player:
     variant: int
     yRot: float
 
+
 @dataclass
 class Block:
     aux: int
     id: str
     namespace: str
+

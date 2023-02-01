@@ -1,6 +1,9 @@
+LICENSE
+README.md
 setup.py
 wsminepy/__init__.py
 wsminepy/__version__.py
+wsminepy/agent.py
 wsminepy/command.py
 wsminepy/event.py
 wsminepy/mcdata.py

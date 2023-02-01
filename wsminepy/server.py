@@ -26,7 +26,7 @@ class Server:
     async def receive(self, websocket: WebSocketServerProtocol, path: str):
         self.websocket = websocket
         if callable(self.__init):
-            self.__init()
+            await self.__init()
 
         for event_name in event.EventName_LIST:
             message = event.get_event_request(event_name)
