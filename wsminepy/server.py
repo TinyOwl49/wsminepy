@@ -2,8 +2,7 @@ import websockets
 from websockets.legacy.server import WebSocketServerProtocol
 import asyncio
 import json
-from wsminepy import event
-from wsminepy import command
+from wsminepy.protocol import event, command, header
 
 
 class Server:
@@ -40,21 +39,24 @@ class Server:
         async with websockets.serve(self.receive, host, port):
             await asyncio.Future()
 
-    async def run_command(self, cmd: str) -> dict:
+    async def run_command(self, cmd: str) -> tuple[command.CommandResponce, header.Header]:
         message = command.get_command_request(cmd)
         await self.websocket.send(message)
-        result = {}
+        result = (command.CommandResponce(-1, ""), header.Header("", "", 0))
         async for msg in self.websocket:
             responce = json.loads(msg)
             messagePurpose = responce['header']['messagePurpose']
 
             if messagePurpose == 'commandResponse' or messagePurpose == 'error':
-                result = responce
+                res = command.to_commandResponce(responce['body'])
+                head = header.to_header(responce['header'])
+
+                result = (res, head)
                 break
 
         return result
 
-    async def tell(self, msg: str, selector: str = "@a") -> dict:
+    async def tell(self, msg: str, selector: str = "@a"):
         return await self.run_command(f"tell {selector} {msg}")
 
     def start(self, host: str = "localhost", port: int = 7777):

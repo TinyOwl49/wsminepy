@@ -1,7 +1,6 @@
 import wsminepy as ws
 from wsminepy.agent import Agent
-from wsminepy.mcdata import Direction as D
-from wsminepy.mcdata import TurnDirection as TD
+from wsminepy.mcdata import Direction
 
 if __name__ == '__main__':
     server = ws.Server()
@@ -9,7 +8,9 @@ if __name__ == '__main__':
 
     @server.init
     async def start():
-        print(await agent.create())
+        res, head = await agent.create()
+        print("[system]", res.statusMessage)
+        print("[status]", res.statusCode)
 
     @server.listen(event="PlayerMessage")
     async def playerMessage(data):
@@ -18,11 +19,17 @@ if __name__ == '__main__':
         print(f"<{sender}>{msg}")
 
         if msg == "#test":
-            for i in range(1, 10):
-                print(i)
-                print(await agent.move(D.Left))
+            for _ in range(1, 10):
+                res, h = await agent.move(Direction.Left)
+                print("[system]", res.statusMessage)
         elif msg == "#kill":
-            await server.run_command("kill @e[type=agent]")
+            res, _ = await server.run_command("kill @e[type=agent]")
+            print(res.statusMessage)
+        elif msg == "tp":
+            print((await agent.tpagent())[0].statusMessage)
         elif msg == "#close":
             await server.close()
+        elif msg == "pos":
+            res, h = await server.run_command("agent getposition")
+            print(res.statusMessage)
     server.start()

@@ -17,6 +17,7 @@ def get_event_request(event_name: str) -> str:
 
     return json.dumps(event_request)
 
+
 EventName_LIST = [
     "AdditionalContentLoaded",
     "AgentCommand",
@@ -103,3 +104,4 @@ EventName_LIST = [
     "WorldLoaded",
     "WorldUnloaded",
 ]
+

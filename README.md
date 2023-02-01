@@ -20,9 +20,10 @@ def connect():
 
 # イベントが発生したときに呼び出されます
 @server.listen()
-async def allEvent(data):
+async def allEvent(eventname, data):
+	print(eventname)
 	# データはdict型です
-	print(data)
+	# print(data)
 	
 # イベント名を指定できます
 @server.listen(event="PlayerMessage")
@@ -33,7 +34,8 @@ async def playerMessage(data):
 
 	if msg == "#hoge":
 		# コマンドを実行します
-		await server.run_command(f"kill {sender}")
+		res, head = await server.run_command(f"kill {sender}")
+		print("[system]", res.statusMessage)
 		# tellコマンドを実行します
 		await server.tell("hogehoge", sender)
 

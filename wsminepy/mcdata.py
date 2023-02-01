@@ -27,7 +27,7 @@ class Dimention(Enum):
     TheEnd = 2
 
 
-class Direction:
+class Direction(Enum):
     Forward = "forward"
     Back = "back"
     Left = "left"
