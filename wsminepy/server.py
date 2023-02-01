@@ -23,7 +23,7 @@ class Server:
                 if callable(self.__listener["all"]):
                     await self.__listener["all"](eventname, message["body"])
 
-    async def receive(self, websocket: WebSocketServerProtocol, path: str):
+    async def receive(self, websocket: WebSocketServerProtocol, _: str):
         self.websocket = websocket
         if callable(self.__init):
             await self.__init()
@@ -36,8 +36,8 @@ class Server:
             message = json.loads(msg)
             await self.parse_message(message)
 
-    async def __start(self):
-        async with websockets.serve(self.receive, "localhost", 7777):
+    async def __start(self, host: str, port: int):
+        async with websockets.serve(self.receive, host, port):
             await asyncio.Future()
 
     async def run_command(self, cmd: str) -> dict:
@@ -57,8 +57,8 @@ class Server:
     async def tell(self, msg: str, selector: str = "@a") -> dict:
         return await self.run_command(f"tell {selector} {msg}")
 
-    def start(self):
-        asyncio.run(self.__start())
+    def start(self, host: str = "localhost", port: int = 7777):
+        asyncio.run(self.__start(host, port))
 
     # TODO
     async def close(self):
@@ -71,39 +71,3 @@ class Server:
         def _listen(func):
             self.__listener[event] = func
         return _listen
-
-
-# if __name__ == '__main__':
-#     server = Server()
-
-#     @server.init
-#     def start():
-#         print("connect")
-
-#     @server.listen(event="PlayerMessage")
-#     async def playerMessage(data):
-#         msg = data['message']
-#         sender = data['sender']
-#         print(f"<{sender}>{msg}")
-
-#         if msg == "#hoge":
-#             result = await server.tell(f"{Color.Red}hoge{Color.Pink}hoge")
-#             print(f"{Color.Red}hoge{Color.Pink}hoge")
-#             print(result)
-#         elif msg == "#test":
-#             result = await server.run_command("kill @e[type=!player]")
-#             print(result)
-
-#     @server.listen(event="MobKilled")
-#     async def mobKilled(data):
-#         print(data)
-
-#     @server.listen(event="MenuShown")
-#     async def menuShown(data):
-#         print(data)
-
-#     @server.listen(event="EntitySpawned")
-#     async def entitySpawned(data):
-#         print(data)
-
-#     server.start()
